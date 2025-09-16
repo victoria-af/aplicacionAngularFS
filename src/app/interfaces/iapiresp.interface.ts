@@ -6,5 +6,5 @@ export interface Iapiresp {
     per_page: number;
     total: number;
     total_pages: number;
-    data: Iuser[];
+    results: Iuser[];
 }

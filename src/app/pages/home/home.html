@@ -1,1 +1,23 @@
-<p>home works!</p>
+<h2>Listado de usuarios</h2>
+
+@if (loading) {
+    <p>Cargando usuarios...</p>
+} @else if (users?.length) {
+    <ul>
+    @for (u of users; track u._id) {
+        <li>
+        {{ u.name }} {{ u.lastname }} - {{ u.email }}
+        </li>
+    }
+    </ul>
+
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage <= 1">
+    Anterior
+    </button>
+    <span>Página {{ currentPage }} / {{ totalPages }}</span>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages">
+    Siguiente
+    </button>
+} @else {
+    <p>No hay usuarios.</p>
+}
