@@ -27,6 +27,6 @@ export class UserService {
   }
 
   deleteUser(_id: string): Observable <unknown> {
-    return this.httpClient.delete<Iuser>(`${this.baseURL}/${_id}`);
+    return this.httpClient.delete(`${this.baseURL}/${_id}`);
   }
 }
