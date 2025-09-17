@@ -4,12 +4,14 @@ import { RouterLink } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Iuser } from '../../interfaces/iuser.interface';
 import { UserService } from '../../services/user.service';
+import { UserCard } from '../../components/user-card/user-card';
 
 @Component({
-  selector: 'app-home',
-  imports: [CommonModule, RouterLink],
-  templateUrl: './home.html',
-  styleUrl: './home.css'
+    selector: 'app-home',
+    standalone: true,
+    imports: [CommonModule, RouterLink, UserCard],
+    templateUrl: './home.html',
+    styleUrl: './home.css'
 })
 export class Home implements OnInit {
 
@@ -27,7 +29,7 @@ export class Home implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
             this.currentPage = Number(params['page']) || 1;
-  this.loadUsers();
+    this.loadUsers();
         });
     }
 
@@ -47,7 +49,7 @@ export class Home implements OnInit {
             }
         });
         }
-      goToPage(page: number): void {
+        goToPage(page: number): void {
         if (page < 1 || page > this.totalPages) {
             return;
         }
@@ -56,4 +58,4 @@ export class Home implements OnInit {
             queryParams: { page: page },
             queryParamsHandling: 'merge',
         });
-      }}
+        }}

@@ -1,1 +1,15 @@
-<p>user-card works!</p>
+<div class="card h-100 text-center shadow-sm">
+        <div class="d-flex justify-content-center p-3">
+        <img [src]="user.image" class="rounded-circle" [alt]="'Avatar de ' + user.first_name" width="100" height="100" style="object-fit: cover;">
+    </div>
+
+    <div class="card-body pt-0">
+        <h5 class="card-title">{{ user.first_name }} {{ user.last_name }}</h5>
+    </div>
+
+    <div class="card-footer d-flex justify-content-around bg-light">
+        <a [routerLink]="['/user', user._id]" class="btn btn-sm btn-outline-secondary">Ver</a>
+        <a [routerLink]="['/updateuser', user._id]" class="btn btn-sm btn-outline-primary">Editar</a>
+        <button class="btn btn-sm btn-outline-danger" disabled>Borrar</button>
+    </div>
+</div>
