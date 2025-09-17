@@ -1,1 +1,25 @@
-<p>user-detail works!</p>
+@if (userDetail()) {
+  <div class="container my-5">
+    <div class="row g-5">
+      <div class="col-md-4 text-center">
+        <img [src]="userDetail()?.image" class="img-fluid rounded-circle shadow-lg" [alt]="'Avatar de ' + userDetail()?.first_name" style="max-width: 250px;">
+      </div>
+
+      <div class="col-md-8 d-flex flex-column justify-content-center">
+        <h1 class="display-4">{{ userDetail()?.first_name }}</h1>
+        <h2 class="display-6 text-muted">{{ userDetail()?.last_name }}</h2>
+        <hr class="my-4">
+        <p class="lead">Nombre de Usuario: {{ userDetail()?.username }}</p>
+        <p class="lead">Email: {{ userDetail()?.email }}</p>
+        
+        <div class="d-flex gap-2 mt-4">
+          <button class="btn btn-outline-danger" (click)="deleteUser()">Eliminar</button>
+          <a [routerLink]="['/updateuser', userDetail()?._id]" class="btn btn-primary">Actualizar</a>
+          <a routerLink="/home" class="btn btn-secondary">Volver al listado</a>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <p class="text-center p-5">Cargando datos del usuario...</p>
+}
