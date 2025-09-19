@@ -1,1 +1,35 @@
-<p>user-form works!</p>
+    <div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+        <h2 class="mb-4">Nuevo Usuario</h2>
+
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+            <div class="mb-3">
+            <label for="first_name" class="form-label">Nombre</label>
+            <input type="text" id="first_name" class="form-control" formControlName="first_name">
+            </div>
+
+            <div class="mb-3">
+            <label for="last_name" class="form-label">Apellidos</label>
+            <input type="text" id="last_name" class="form-control" formControlName="last_name">
+            </div>
+
+            <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email">
+            </div>
+
+            <div class="mb-3">
+            <label for="image" class="form-label">Imagen (URL)</label>
+            <input type="text" id="image" class="form-control" formControlName="image">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+
+        </form>
+
+        </div>
+    </div>
+</div>

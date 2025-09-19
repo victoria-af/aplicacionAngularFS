@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { Iapiresp } from '../interfaces/iapiresp.interface';
 import { Iuser } from '../interfaces/iuser.interface';
 @Injectable({
@@ -18,8 +18,8 @@ export class UserService {
     return this.httpClient.get<Iuser>(`${this.baseURL}/${_id}`);
   }
 
-  createUser(user: Iuser): Observable <Iuser> {
-    return this.httpClient.post<Iuser>(this.baseURL, user);
+  createUser(user: Iuser): Promise <Iuser> {
+    return lastValueFrom(this.httpClient.post<Iuser>(this.baseURL, user));
   }
 
   updateUser(_id: string, user: Iuser): Observable<Iuser> {
