@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { Iuser } from '../../interfaces/iuser.interface';
 import { UserService } from '../../services/user.service';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [RouterLink, RouterModule,],
+  imports: [RouterModule,],
   templateUrl: './user-detail.html',
   styleUrl: './user-detail.css'
 })
@@ -20,21 +20,14 @@ export class UserDetail implements OnInit {
   private router = inject(Router);
   public userDetail = signal<Iuser | null>(null);
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if (this._id) {
-
-      this.userService.getUserById(this._id).subscribe({
-        next: (response) => {
-
-          this.userDetail.set(response);
-          console.log('Datos del usuario recibidos:', response);
-        },
-        error: (err) => {
-          console.error('Error al cargar los datos del usuario', err);
-
-      
-        }
-      });
+      try {
+        const user = await this.userService.getUserById(this._id);
+        this.userDetail.set(user);
+      } catch (error) {
+        console.error('Error al cargar los datos del usuario', error);
+      }
     }
   }
 

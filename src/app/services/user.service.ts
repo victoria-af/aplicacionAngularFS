@@ -14,8 +14,8 @@ export class UserService {
     return this.httpClient.get<Iapiresp>(`${this.baseURL}?page=${page}`);
   }
   
-  getUserById(_id: string): Observable <Iuser> {
-    return this.httpClient.get<Iuser>(`${this.baseURL}/${_id}`);
+  getUserById(_id: string): Promise <Iuser> {
+    return lastValueFrom(this.httpClient.get<Iuser>(`${this.baseURL}/${_id}`));
   }
 
   createUser(user: Iuser): Promise <Iuser> {
