@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Iuser } from '../../interfaces/iuser.interface';
 import { UserService } from '../../services/user.service';
 import { UserCard } from '../../components/user-card/user-card';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { UserDetail } from '../user-detail/user-detail';
 
 @Component({
     selector: 'app-home',
@@ -58,4 +60,36 @@ export class Home implements OnInit {
             queryParams: { page: page },
             queryParamsHandling: 'merge',
         });
-        }}
+        }
+
+        deleteUser (UserId: string): void {
+    Swal.fire({
+        title: `¿Deseas Borrar al usuario ?`,
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d'
+    }).then((result) => {
+    if (result.isConfirmed) {
+        this.userService.deleteUser(UserId).subscribe({
+        next: () => {
+            Swal.fire(
+            '¡Borrado!',
+            'El usuario ha sido eliminado.'
+            );
+            this.loadUsers();
+        },
+        error: (err) => {
+            Swal.fire(
+            'Error',
+            'No se pudo borrar el usuario.',
+            'error'
+            );
+        }
+        });
+    }
+    });
+    }
+}

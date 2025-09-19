@@ -10,6 +10,6 @@
     <div class="card-footer d-flex justify-content-around bg-light">
         <a [routerLink]="['/user', user._id]" class="btn btn-sm btn-outline-secondary">Ver</a>
         <a [routerLink]="['/updateuser', user._id]" class="btn btn-sm btn-outline-primary">Editar</a>
-        <button class="btn btn-sm btn-outline-danger" disabled>Borrar</button>
+        <button (click)="onDeleteClick()" class="btn btn-sm btn-outline-danger" title="Borrar">Borrar</button>
     </div>
 </div>

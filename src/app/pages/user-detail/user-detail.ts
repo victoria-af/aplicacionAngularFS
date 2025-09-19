@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { Iuser } from '../../interfaces/iuser.interface';
 import { UserService } from '../../services/user.service';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [RouterLink, RouterModule],
+  imports: [RouterLink, RouterModule,],
   templateUrl: './user-detail.html',
   styleUrl: './user-detail.css'
 })
@@ -17,7 +17,7 @@ export class UserDetail implements OnInit {
   
 
   private userService = inject(UserService);
-
+  private router = inject(Router);
   public userDetail = signal<Iuser | null>(null);
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class UserDetail implements OnInit {
     }
   }
 
-  deleteUser() {
+  deleteUser(): void {
       const user = this.userDetail();
 
       if (user) {
@@ -53,10 +53,21 @@ export class UserDetail implements OnInit {
 
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log('Borrado. Llamariamos al servicio aqui.');
+this.userService.deleteUser(user._id!).subscribe({
+            next: () => {
+              Swal.fire(
+                '¡Borrado!',
+                'El usuario ha sido eliminado.',
+              );
+              this.router.navigate(['/home']); // Redirigimos al usuario a la home
+            },
+            error: (err) => {
+              Swal.fire('Error', 'No se pudo borrar el usuario.', 'error');
+              console.error(err);
+            }
+          });
         }
       });
     }
   }
 }
-
