@@ -62,7 +62,8 @@ export class Home implements OnInit {
         });
         }
 
-        deleteUser (UserId: string): void {
+        async deleteUser (UserId: string): Promise <void> {
+            const result= await 
     Swal.fire({
         title: `¿Deseas Borrar al usuario ?`,
         showCancelButton: true,
@@ -71,25 +72,18 @@ export class Home implements OnInit {
 
         confirmButtonColor: '#dc3545',
         cancelButtonColor: '#6c757d'
-    }).then((result) => {
-    if (result.isConfirmed) {
-        this.userService.deleteUser(UserId).subscribe({
-        next: () => {
-            Swal.fire(
-            '¡Borrado!',
-            'El usuario ha sido eliminado.'
-            );
-            this.loadUsers();
-        },
-        error: (err) => {
-            Swal.fire(
-            'Error',
-            'No se pudo borrar el usuario.',
-            'error'
-            );
-        }
-        });
-    }
     });
+    if (result.isConfirmed) {
+        try {
+        await this.userService.deleteUser(UserId);
+        this.loadUsers();
+        Swal.fire('¡Borrado!', 'El usuario ha sido eliminado.', 'success');
+        } catch (error) {
+        Swal.fire('Error', 'No se pudo borrar el usuario.', 'error');
+        console.error(error);
+    }
     }
 }
+    }
+    
+

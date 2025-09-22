@@ -31,36 +31,29 @@ export class UserDetail implements OnInit {
     }
   }
 
-  deleteUser(): void {
+  async deleteUser(): Promise<void> {
       const user = this.userDetail();
 
-      if (user) {
-        Swal.fire({
-          title: `¿Deseas Borrar al usuario ${user.first_name}?`,
-          showCancelButton: true,
-          confirmButtonText: 'Aceptar',
-          cancelButtonText: 'Cancelar',
-
-        confirmButtonColor: '#dc3545',
-        cancelButtonColor: '#6c757d'
-
-      }).then((result) => {
-        if (result.isConfirmed) {
-this.userService.deleteUser(user._id!).subscribe({
-            next: () => {
-              Swal.fire(
-                '¡Borrado!',
-                'El usuario ha sido eliminado.',
-              );
-              this.router.navigate(['/home']); // Redirigimos al usuario a la home
-            },
-            error: (err) => {
-              Swal.fire('Error', 'No se pudo borrar el usuario.', 'error');
-              console.error(err);
-            }
-          });
-        }
+if (user && user._id) {
+      const result = await Swal.fire({
+        title: `¿Deseas Borrar al usuario ${user.first_name}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, borrar',
+        cancelButtonText: 'Cancelar',
       });
-    }
+
+      if (result.isConfirmed) {
+        try {
+          await this.userService.deleteUser(user._id);
+          await Swal.fire('¡Borrado!', 'El usuario ha sido eliminado.', 'success');
+          this.router.navigate(['/home']);
+        } catch (error) {
+          Swal.fire('Error', 'No se pudo borrar el usuario.', 'error');
+            }
+          };
+        }
+      }
+    
   }
-}
+  

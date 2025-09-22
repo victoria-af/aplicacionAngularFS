@@ -22,11 +22,12 @@ export class UserService {
     return lastValueFrom(this.httpClient.post<Iuser>(this.baseURL, user));
   }
 
-  updateUser(_id: string, user: Iuser): Observable<Iuser> {
-    return this.httpClient.put<Iuser>(`${this.baseURL}/${_id}`, user);
+  updateUser(user: Iuser): Promise<Iuser> {
+    const { _id, ...resto } = user;
+    return lastValueFrom(this.httpClient.put<Iuser>(`${this.baseURL}/${_id}`, resto));
   }
 
-  deleteUser(_id: string): Observable <unknown> {
-    return this.httpClient.delete(`${this.baseURL}/${_id}`);
+  deleteUser(_id: string): Promise <unknown> {
+    return lastValueFrom(this.httpClient.delete(`${this.baseURL}/${_id}`));
   }
 }
